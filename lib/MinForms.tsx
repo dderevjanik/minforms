@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ErrorsFromValues, MinFormsProps } from "./MinFormsProps";
+import { ErrorsFromValues, MinFormsProps, SetValue } from "./MinFormsProps";
 
 export type State<V extends object> = {
   values: V;

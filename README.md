@@ -3,6 +3,7 @@
 _- Too small to not use_
 
 [![Build Status](https://travis-ci.org/dderevjanik/minforms.svg?branch=master)](https://travis-ci.org/dderevjanik/minforms)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
 
@@ -75,11 +76,13 @@ validation?: (values: V) => ErrorsFromValues<V>;
 
 /**
  * Should validate only on submit ?
+ * @default false
  */
 validateOnSubmit?: boolean;
 
 /**
  * Should immediately after creating a component ?
+ * @default true
  */
 validateOnInit?: boolean;
 
@@ -87,11 +90,6 @@ validateOnInit?: boolean;
  * Automatically change value based on input `name`
  */
 handleChange: (e: ReactChangeEvent<HTMLInputElement>) => void;
-
-/**
- * Should autobind input values by Id to initial values and changed them onChange ?
- */
-autoBind?: boolean;
 ```
 
 ### RenderProps<V>
@@ -100,4 +98,5 @@ autoBind?: boolean;
 values: V;
 errors: {[ErrorValue in keyof V]?: string };
 setValue: (value: keyof V, newValue: V[keyof V]) => void;
+onSubmit: (values: V) => void;
 ```

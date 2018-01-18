@@ -1,5 +1,5 @@
 {
   "prettier.disableLanguages": [],
   "tslint.enable": false,
-  "cSpell.words": ["autobind", "formik"]
+  "cSpell.words": ["autobind", "formik", "minforms", "minform"]
 }

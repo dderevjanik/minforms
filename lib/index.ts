@@ -1,1 +1,1 @@
-export { MinForm } from './MinFormsWrapper';
+export { MinForm } from "./MinFormsWrapper";

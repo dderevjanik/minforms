@@ -1,23 +1,26 @@
 # MinForms
 
-_- Too small to not use_
-
 [![Build Status](https://travis-ci.org/dderevjanik/minforms.svg?branch=master)](https://travis-ci.org/dderevjanik/minforms)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
+🔥 Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
 
-## Why ?
+## Why
 
-Formik is a really great library for building forms in typescript. Has great API
+Formik is a really great library for building forms in Typescript React. Has great API
 and it's easy to use. **MinForms** library is not trying to replace Formik in any
-way, it's just small lib which helps you to build basic forms. For complicate
-forms, I suggest to use [formik](https://github.com/jaredpalmer/formik) instead.
+way, it's just a small lib which helps you to build basic forms. For complex
+forms, I suggest you to use [formik](https://github.com/jaredpalmer/formik) instead.
+
+Main features:
 
 * small in size
-* easy to use
+* easy to use (_only one component_)
 * has full `typescript` support
 * no external dependencies
+
+! `minforms` library is designed to provides no Fields or Custom Inputs. It only cares
+about values you provided, so you can build best suited Fields/Inputs for you.
 
 ## Installation
 
@@ -93,6 +96,8 @@ handleChange: (e: ReactChangeEvent<HTMLInputElement>) => void;
 ```
 
 ### RenderProps<V>
+
+RenderProps are passed to minform's render function (check example above)
 
 ```typescript
 values: V;

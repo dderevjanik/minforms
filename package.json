@@ -7,7 +7,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "prettier --write ./lib/**/*.(ts|tsx)",
+    "lint": "prettier --write ./lib/**/*.{tsx,ts}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["typescript", "forms", "form", "react", "react-dom"],

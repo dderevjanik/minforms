@@ -38,7 +38,7 @@ export type MinFormsProps<V extends object> = {
   /**
    * Values passed to MinForms
    */
-  values?: V;
+  values?: Partial<V>;
 
   /**
    * Render function that renders form based on initial values

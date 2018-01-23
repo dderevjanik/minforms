@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MinForm } from "../lib/index";
+import { MinForm } from "../dist/index";
 
 export const Calculator = (props: {}) => (
   <div>

@@ -21,6 +21,17 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
     };
   }
 
+  componentWillReceiveProps(nextProps: MinFormsProps<V>) {
+    if (this.props.onValuesChange && nextProps.values) {
+      this.setState({
+        values: {
+          ...(this.state.values as any),
+          ...(this.props.onValuesChange(this.state.values, nextProps.values) as any)
+        }
+      });
+    }
+  }
+
   /**
    * Will validate values based on given `validation` - if there's any
    * @param values - values to validate
@@ -77,7 +88,7 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
         throw new Error(
           `Input with a name '${
             e.target.name
-          }' is emitting an onChange event using handleChange, but there's no value defined. Probably you misspelled input's name or you didn't provide correct value in initialValues`
+          }' is emitting an 'onChange' event using handleChange, but there's no value defined. Probably you misspelled input's name or you didn't provide correct value in initialValues`
         );
       }
     } else {
@@ -93,7 +104,7 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
       handleChange: this.handleChange,
       setValue: this.setValue,
       values: this.state.values,
-      onSubmit: this.onSubmit
+      submit: this.onSubmit
     });
   }
 }

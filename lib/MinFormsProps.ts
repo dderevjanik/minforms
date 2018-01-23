@@ -26,7 +26,7 @@ export type RenderProps<V extends object> = {
   /**
    * OnSubmit event
    */
-  onSubmit: (callback: (values: V) => void) => void;
+  submit: (callback: (values: V) => void) => void;
 };
 
 export type MinFormsProps<V extends object> = {
@@ -34,6 +34,11 @@ export type MinFormsProps<V extends object> = {
    * Initial values passed to QuickForm components
    */
   initialValues: V;
+
+  /**
+   * Values passed to MinForms
+   */
+  values?: V;
 
   /**
    * Render function that renders form based on initial values
@@ -50,11 +55,18 @@ export type MinFormsProps<V extends object> = {
 
   /**
    * Should validate only on submit ?
+   * @default {false}
    */
   validateOnSubmit?: boolean;
 
   /**
    * Should immediately after creating a component ?
+   * @default {true}
    */
   validateOnInit?: boolean;
+
+  /**
+   * What to do, when new values are passed to `values` props
+   */
+  onValuesChange?: (values: V, nextValues: V) => Partial<V>;
 };

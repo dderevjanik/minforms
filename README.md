@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/dderevjanik/minforms.svg?branch=master)](https://travis-ci.org/dderevjanik/minforms)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-🔥 Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
+?? Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
 
 ## Why
 
@@ -24,7 +24,7 @@ about values you provided, so you can build best suited Fields/Inputs for you.
 
 ## Installation
 
-`npm i quickform` or `yarn i quickform`
+`npm i minforms` or `yarn i minforms`
 
 ## Examples
 
@@ -54,54 +54,85 @@ More examples can be found in [./examples/](./examples)
 
 ## API
 
-copied from [./lib/MinForms.tsx](./lib/MinForms.tsx)
-
-### MinFormProps<V>
+### Minforms
 
 ```typescript
-/**
- * Initial values passed to QuickForm components
- */
-initialValues: V;
+export type MinFormsProps<V extends object> = {
+  /**
+   * Initial values passed to QuickForm components.
+   * This is required property, once you describe your initialValues
+   * you'll be no longer able to change the Shape of values.
+   */
+  initialValues: V;
 
-/**
- * Render function that renders form based on initial values
- * @param props - given props
- */
-render: (props: RenderProps<V>) => JSX.Element | JSX.Element[];
+  /**
+   * Values passed to MinForms. If your component has controlled state
+   * and you want to pass changed values to MinForms, use this
+   * props to update values.
+   */
+  values?: Partial<V>;
 
-/**
- * Put all validation here
- * @param values - obtain from `MinForm` state
- * @return possible errors
- */
-validation?: (values: V) => ErrorsFromValues<V>;
+  /**
+   * Render function that renders form based on initial values
+   * @param props - given props
+   */
+  render: (props: RenderProps<V>) => JSX.Element | JSX.Element[];
 
-/**
- * Should validate only on submit ?
- * @default false
- */
-validateOnSubmit?: boolean;
+  /**
+   * Put all validation here
+   * @param values - obtain from `MinForm` state
+   * @return possible errors
+   */
+  validation?: (values: V) => ErrorsFromValues<V>;
 
-/**
- * Should immediately after creating a component ?
- * @default true
- */
-validateOnInit?: boolean;
+  /**
+   * Should validate on submit ?
+   * @default {false}
+   */
+  validateOnSubmit?: boolean;
 
-/**
- * Automatically change value based on input `name`
- */
-handleChange: (e: ReactChangeEvent<HTMLInputElement>) => void;
+  /**
+   * Should validate immediately after creating a component ?
+   * @default {true}
+   */
+  validateOnInit?: boolean;
+
+  /**
+   * What to do, when a new values are passed to `values` props
+   */
+  onValuesChange?: (values: V, nextValues: Partial<V>) => Partial<V>;
+};
 ```
 
-### RenderProps<V>
-
-RenderProps are passed to minform's render function (check example above)
+### Minforms `Render`
 
 ```typescript
-values: V;
-errors: {[ErrorValue in keyof V]?: string };
-setValue: (value: keyof V, newValue: V[keyof V]) => void;
-onSubmit: (values: V) => void;
+export type RenderProps<V extends object> = {
+  /**
+   * Minforms computed values
+   * Those are obtained from `initialValues` and `values` props
+   */
+  values: V;
+
+  /**
+   * Automatically update `value` based on input's name
+   * To make this work, please put `handleChange` inside your input's `onChange` event
+   */
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+  /**
+   * Possible errors returned from `validation` prop
+   */
+  errors: ErrorsFromValues<V>;
+
+  /**
+   * Set new value
+   */
+  setValue: SetValue<V>;
+
+  /**
+   * submit event, pass your custom submit function
+   */
+  submit: (callback: (values: V) => void) => void;
+};
 ```

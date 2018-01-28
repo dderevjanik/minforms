@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/dderevjanik/minforms.svg?branch=master)](https://travis-ci.org/dderevjanik/minforms)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-?? Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
+:fire: Small and quick alternative to [formik](https://github.com/jaredpalmer/formik)
 
 ## Why
 

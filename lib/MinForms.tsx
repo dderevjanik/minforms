@@ -1,18 +1,21 @@
 import * as React from "react";
 import { ErrorsFromValues, MinFormsProps, SetValue } from "./MinFormsProps";
 
-export type State<V extends object> = {
+export type State<V extends object, E> = {
   values: V;
-  errors: ErrorsFromValues<V>;
+  errors: ErrorsFromValues<V, E>;
 };
 
-export class MinForms<V extends object> extends React.Component<MinFormsProps<V>, State<V>> {
-  public static defaultProps: Partial<MinFormsProps<{}>> = {
+export class MinForms<Values extends object, ErrorType = string> extends React.Component<
+  MinFormsProps<Values, ErrorType>,
+  State<Values, ErrorType>
+> {
+  public static defaultProps: Partial<MinFormsProps<object, object>> = {
     validateOnSubmit: false,
     validateOnInit: true
   };
 
-  constructor(props: MinFormsProps<V>) {
+  constructor(props: MinFormsProps<Values, ErrorType>) {
     super(props);
     const errors = props.validateOnInit ? (props.validation ? props.validation(props.initialValues) : {}) : {};
     this.state = {
@@ -21,7 +24,7 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
     };
   }
 
-  componentWillReceiveProps(nextProps: MinFormsProps<V>) {
+  componentWillReceiveProps(nextProps: MinFormsProps<Values, ErrorType>) {
     if (this.props.onValuesChange && nextProps.values) {
       this.setState({
         values: {
@@ -37,7 +40,7 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
    * @param values - values to validate
    * @return possible errors
    */
-  public validate = (values: V) => {
+  public validate = (values: Values) => {
     if (this.props.validation && !this.props.validateOnSubmit) {
       return this.props.validation(values);
     } else {
@@ -47,11 +50,12 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
 
   /**
    * Set value to `values`
+   * @desc Use this function to change initialValues, after setting a new value, it'll validate and re-render MinForms
    * @param value - which value from `values` change
    * @param newValue - to new value
    */
-  private setValue: SetValue<V> = (value, newValue) => {
-    const newValues: V = {
+  private setValue: SetValue<Values> = (value, newValue) => {
+    const newValues: Values = {
       ...(this.state.values as any),
       [value]: newValue
     };
@@ -62,9 +66,11 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
     });
   };
 
-  private onSubmit = (callback: (valuesToSubmit: V) => void) => {
+  private onSubmit = (callback: (valuesToSubmit: Values) => void) => {
+    // Has validation ?
     if (this.props.validation) {
       const errors = this.validate(this.state.values);
+      // Is there any errors ?
       if (Object.keys(errors).length > 0) {
         // There are errors, so don't submit this Form
         this.setState({
@@ -78,22 +84,29 @@ export class MinForms<V extends object> extends React.Component<MinFormsProps<V>
     }
   };
 
+  /**
+   * @param e - Event emitted from an input element
+   */
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Has input `name` attribute ?
     if (e.target.name) {
       // Check if input attribute `name` matches any value in `this.state.values`
       if (e.target.name in this.state.values) {
-        // TODO: try to remove `any` hack
-        this.setValue(e.target.name as any, e.target.value);
+        this.setValue(e.target.name as any, e.target.value as any);
       } else {
         throw new Error(
-          `Input with a name '${
+          `Error during 'handleChange': <${e.target.tagName}> with a name '${
             e.target.name
-          }' is emitting an 'onChange' event using handleChange, but there's no value defined. Probably you misspelled input's name or you didn't provide a correct value in initialValues`
+          }' doesn't exists in initialValues. Probably you misspelled input's name or you didn't provide a correct value in initialValues`
         );
       }
     } else {
       throw new Error(
-        `Input without a 'name' attribute is emitting 'onChange' event using handleChange. Please provide a correct 'name' attribute to input element to match it's value from initialValues`
+        `Error during 'handleChange': Element <${
+          e.target.tagName
+        }> has no 'name' attribute and it is emitting 'onChange' event. Please provide a correct 'name' attribute to your <${
+          e.target.tagName
+        }> element to match it's 'value' from initialValues`
       );
     }
   };

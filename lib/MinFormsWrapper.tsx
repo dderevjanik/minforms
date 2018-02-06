@@ -6,6 +6,6 @@ import * as React from "react";
 import { MinForms } from "./MinForms";
 import { MinFormsProps } from "./MinFormsProps";
 
-export function MinForm<V extends object>(props: MinFormsProps<V>) {
+export function MinForm<Values extends object, ErrorType = string>(props: MinFormsProps<Values, ErrorType>) {
   return <MinForms {...props} />;
 }

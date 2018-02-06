@@ -1,22 +1,22 @@
-export type ErrorsFromValues<V extends object> = { [ErrorValue in keyof V]?: string };
+export type ErrorsFromValues<V extends object, E> = { [ErrorValue in keyof V]?: E };
 
-export type SetValue<V extends object> = (
+export type SetValue<Values extends object> = (
   /**
    * Name of value property
    */
-  value: keyof V,
+  value: keyof Values,
   /**
    * It's value
    */
-  newValue: V[keyof V]
+  newValue: Values[keyof Values]
 ) => void;
 
-export type RenderProps<V extends object> = {
+export type RenderProps<Values extends object, ErrorType> = {
   /**
    * Minforms computed values
    * Those are obtained from `initialValues` and `values` props
    */
-  values: V;
+  values: Values;
 
   /**
    * Automatically update `value` based on input's name
@@ -27,20 +27,20 @@ export type RenderProps<V extends object> = {
   /**
    * Possible errors returned from `validation` prop
    */
-  errors: ErrorsFromValues<V>;
+  errors: ErrorsFromValues<Values, ErrorType>;
 
   /**
    * Set new value
    */
-  setValue: SetValue<V>;
+  setValue: SetValue<Values>;
 
   /**
    * submit event, pass your custom submit function
    */
-  submit: (callback: (values: V) => void) => void;
+  submit: (callback: (values: Values) => void) => void;
 };
 
-export type MinFormsProps<V extends object> = {
+export type MinFormsProps<V extends object, E> = {
   /**
    * Initial values passed to QuickForm components.
    * This is required property, once you describe your initialValues
@@ -59,14 +59,14 @@ export type MinFormsProps<V extends object> = {
    * Render function that renders form based on initial values
    * @param props - given props
    */
-  render: (props: RenderProps<V>) => JSX.Element | JSX.Element[];
+  render: (props: RenderProps<V, E>) => JSX.Element | JSX.Element[];
 
   /**
    * Put all validation here
    * @param values - obtain from `MinForm` state
    * @return possible errors
    */
-  validation?: (values: V) => ErrorsFromValues<V>;
+  validation?: (values: V) => ErrorsFromValues<V, E>;
 
   /**
    * Should validate on submit ?

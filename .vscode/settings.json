@@ -1,5 +1,6 @@
 {
   "prettier.disableLanguages": [],
   "tslint.enable": false,
-  "cSpell.words": ["autobind", "formik", "minforms", "minform"]
+  "cSpell.words": ["autobind", "formik", "minforms", "minform"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
